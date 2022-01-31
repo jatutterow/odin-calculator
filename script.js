@@ -65,6 +65,12 @@ function equalsButtonClicked(e){
     let a = Number(storedValue);
     let b = Number(displayValue);
     let calcValue = 0;
+    if(a == ''){
+        a = 0;
+    }
+    if(storedOperator == ''){
+        setDisplay('clear');
+    }
     if(storedOperator === 'add'){
         calcValue = add(a, b);
     }
@@ -75,6 +81,11 @@ function equalsButtonClicked(e){
         calcValue = multiply(a, b);
     }
     else if(storedOperator === 'divide'){
+        if(b == 0){
+            alert('Why would you try and divide by 0??');
+            setDisplay('clear');
+            return;
+        }
         calcValue = divide(a, b);
     }
     setDisplay('equals', calcValue);
@@ -87,8 +98,10 @@ function clearButtonClicked(e){
 
 function setDisplay(mode, input){
     if(mode == 'number'){
-        if(displayValue = ''){
-            displayValue = input;
+        if(displayValue == ''){
+            if(input != '0'){
+                displayValue = input;
+            }
         }
         else{
             displayValue = displayValue + input;
@@ -99,10 +112,12 @@ function setDisplay(mode, input){
         displayValue = '';
     }
     if(mode == 'clear'){
+        storedOperator = '';
         displayValue = '';
         storedValue = '0';
     }
     if(mode == 'equals'){
+        storedOperator = ''
         displayValue = input;
     }
     if(displayValue == ""){
