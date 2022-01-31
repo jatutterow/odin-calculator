@@ -5,10 +5,10 @@
 //Updated: 1/28/22
 
 let display = document.querySelector('#output')
-let storedValue = 0;
-let displayValue = 0;
+let storedValue = '0';
+let displayValue = '';
 let storedOperator = null;
-setDisplay('0');
+setDisplay('');
 
 numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach( (button) => {
@@ -49,7 +49,7 @@ function operate(operator, a, b){
 function numberButtonClicked(e){
     let numClicked = e.target.attributes.id.value;
     console.log(numClicked);
-    appendDisplay(numClicked);
+    setDisplay('number', numClicked);
 };
 
 function operatorButtonClicked(e){
@@ -57,8 +57,7 @@ function operatorButtonClicked(e){
     console.log(operatorClicked);
 
     storedOperator = operatorClicked;
-    storedValue = displayValue;
-    setDisplay('0');
+    setDisplay('operator');
 };
 
 function equalsButtonClicked(e){
@@ -78,23 +77,38 @@ function equalsButtonClicked(e){
     else if(storedOperator === 'divide'){
         calcValue = divide(a, b);
     }
-    setDisplay(calcValue);
+    setDisplay('equals', calcValue);
 };
 
 function clearButtonClicked(e){
     console.log(e.target.attributes.id.value);
-    setDisplay('0');
+    setDisplay('clear');
 };
 
-function appendDisplay(input){
-    if(displayValue == 0){
-        displayValue = "";
+function setDisplay(mode, input){
+    if(mode == 'number'){
+        if(displayValue = ''){
+            displayValue = input;
+        }
+        else{
+            displayValue = displayValue + input;
+        }
     }
-    displayValue = displayValue + input 
-    display.textContent = displayValue;
-}
-
-function setDisplay(input){
-    displayValue = input;
-    display.textContent = displayValue;
+    if(mode == 'operator'){
+        storedValue = displayValue;
+        displayValue = '';
+    }
+    if(mode == 'clear'){
+        displayValue = '';
+        storedValue = '0';
+    }
+    if(mode == 'equals'){
+        displayValue = input;
+    }
+    if(displayValue == ""){
+        display.textContent = storedValue;
+    }
+    else{
+        display.textContent = displayValue;
+    }
 }
